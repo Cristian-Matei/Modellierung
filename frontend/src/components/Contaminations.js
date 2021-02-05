@@ -66,7 +66,10 @@ export default class Contamination extends Component {
     }
 
     submit = () =>{
-        alert("aaa")
+        axios.post("http://127.0.0.1:5000/contamination", {
+            "name" : this.state.text,
+            "date": this.state.selectedDate
+        });
     }
 
     render() {
@@ -110,6 +113,7 @@ export default class Contamination extends Component {
                             <Button variant="contained" onClick={this.submit}>Submit</Button>
                         </Grid>
                     </Grid>
+                    <Grid container spacing={3}> <Grid item xs={8}><h5>Affected people and rooms: Paul, Diana, Conference Room A </h5></Grid></Grid>
                 </Layout>
             </div>
         );

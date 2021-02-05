@@ -79,9 +79,9 @@ class Visit(Resource):
 @app.route("/contamination", methods=["POST"])
 def do_something():
     data = request.json
-    #name = data["name"]
-    #time = data["time"]
-    print(data)
+    name = data["name"]
+    time = data["date"][:10]
+    print(time)
     return "a",201
 
 
