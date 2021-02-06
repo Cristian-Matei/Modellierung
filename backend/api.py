@@ -1,7 +1,8 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_restful import Resource, Api
 from flask_cors import CORS
 from read_dates import get_new_visits
+from datetime import datetime, date
 import copy
 
 app = Flask(__name__)
@@ -81,8 +82,21 @@ def do_something():
     data = request.json
     name = data["name"]
     time = data["date"][:10]
-    print(time)
-    return "a",201
+    y, m, d = time.split("-")
+    day = int(d)
+    month = int(m)
+    year = int(y)
+    result = { "risk" : []}
+    rez_list = []
+    for v in  VISITS["visits"]:
+        if v["time"].day == day and v["time"].month == month and v["time"].year == year:
+            rez_list.append(v["name"])
+            rez_list.append(v["room"])
+
+    rez_list = list(set(rez_list))
+    print(rez_list)
+    result["risk"] = rez_list
+    return jsonify(result)
 
 
 api.add_resource(HelloWorld, '/')

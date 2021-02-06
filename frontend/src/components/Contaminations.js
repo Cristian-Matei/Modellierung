@@ -55,6 +55,25 @@ export default class Contamination extends Component {
         );
     }
 
+    renderRisk = (tableData) => {
+        return (
+            <table className="table table-striped" aria-labelledby="tabelLabel">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {tableData.map(entry =>
+                        <tr>
+                            <td>{entry}</td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
+        );
+    }
+
     handleDateChange = (date) => {
         console.log(date);
         this.setState({ selectedDate: date })
@@ -69,6 +88,9 @@ export default class Contamination extends Component {
         axios.post("http://127.0.0.1:5000/contamination", {
             "name" : this.state.text,
             "date": this.state.selectedDate
+        }).then((response) => {
+            console.log(response.data);
+            this.setState({risk: response.data.risk})
         });
     }
 
@@ -113,7 +135,14 @@ export default class Contamination extends Component {
                             <Button variant="contained" onClick={this.submit}>Submit</Button>
                         </Grid>
                     </Grid>
-                    <Grid container spacing={3}> <Grid item xs={8}><h5>Affected people and rooms: Paul, Diana, Conference Room A </h5></Grid></Grid>
+                    {/* <Grid container spacing={3}> <Grid item xs={8}><h5>Affected people and rooms: Paul, Diana, Conference Room A </h5></Grid></Grid> */}
+
+                    <Grid container spacing={3}>
+                        <Grid item xs={8}>
+                            <h3>Risk exposure</h3>
+                            {this.renderRisk(this.state.risk)}
+                        </Grid>
+                    </Grid>
                 </Layout>
             </div>
         );
